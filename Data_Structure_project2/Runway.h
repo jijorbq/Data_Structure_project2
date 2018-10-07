@@ -5,7 +5,9 @@ class Runway
 {
 public:
 	Runway();
+	Runway(int num, bool flag);
 	~Runway();
+	bool setFlag(bool flag);
 private:
 	bool flag;	//跑道是起飞或着陆
 	int num;	//跑道编号
