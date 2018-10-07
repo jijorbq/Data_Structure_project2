@@ -7,9 +7,11 @@ public:
 	Runway();
 	Runway(int num, bool flag);
 	~Runway();
-	bool setFlag(bool flag);
+	void setFlag(bool flag);
+	bool getFlag() const;
+	int getNum() const;
 private:
-	bool flag;	//跑道是起飞或着陆
+	bool flag;	//跑道是起飞或着陆 true起飞 flase着陆 
 	int num;	//跑道编号
 };
 
