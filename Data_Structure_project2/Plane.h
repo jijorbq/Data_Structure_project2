@@ -1,4 +1,3 @@
-#pragma once
 class Plane
 {
 public:
@@ -10,12 +9,18 @@ public:
 	int getNum() const;
 	int getFuel() const;//return fuel_level 
 	int getTime() const;
+	void setrunway(int ele);
+	int getrunway();
+	
 	~Plane();
+	
+	friend bool operator<(Plane, Plane);
 private:
-	bool flag;//takeoff/land true´ýÆð·É false´ý½µÂä 
+	bool flag;//takeoff/land true´ýÆð·É false´ý½µÂä
 	int num;//·É»ú±àºÅ
 	int wait_time;
 	int fuel_level;//Ê£ÓàÓÍÁ¿
 	int fuel_consumption;//µ¥Î»Ê±¼äºÄÓÍÁ¿
+	int runway_num; //Ç°Íù»ú³¡±àºÅ 
 };
 
