@@ -23,6 +23,7 @@ bool Plane::update(){
 		return true;
 	}
 }
+
 void Plane::setFlag(bool flag){
 	this->flag = flag;
 } 
@@ -38,9 +39,25 @@ int Plane::getFuel() const{
 int Plane::getTime() const{
 	return wait_time;
 }
+
+void Plane::setrunway(int ele)
+{
+	runway_num = ele;
+}
+int Plane::getrunway()
+{
+	return runway_num;
+}
+	
 Plane::~Plane(){
 	flag = true;
 	fuel_level = 100000000;
 	fuel_consumption = 0;
 	wait_time = 0;
 }
+
+bool operator<(Plane a, Plane b)
+{
+	return (double)a.fuel_level/a.fuel_consumption < (double)b.fuel_level / b.fuel_consumption;
+}
+
