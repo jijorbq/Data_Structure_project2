@@ -15,13 +15,15 @@ Plane::Plane(bool flag, int num, int fuel_level, int fuel_consumption){
 	this->fuel_consumption = fuel_consumption;
 }
 bool Plane::update(){
-	if( flag==true ) return true;
-	else{
+	++wait_time;
+	if(flag==false)
+	{
 		fuel_level-=fuel_consumption;
-		if( fuel_consumption<0 ) return false;
-		++wait_time;
-		return true;
+		if( fuel_consumption<0 ) 
+			return false;
 	}
+
+	return true;
 }
 
 void Plane::setFlag(bool flag){
