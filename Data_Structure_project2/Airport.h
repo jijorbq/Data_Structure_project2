@@ -21,12 +21,12 @@ public:
 	bool setSize_queue_land(int size);
 	
 	//cur
-	bool message(bool, int, int, int); // 起飞/降落，飞机编号, 
+	bool message(bool flag, int num, int fuel = 10000000, int v = 0); // 起飞/降落，飞机编号, 
 	void Take_Land();
 	std::tuple<bool, vector<Plane>, vector<Plane> > request() const;
 	std::vector<Plane> show_takeoff();
 	std::vector<Plane> show_land();
-	
+	void Order(); //order可以认为是机场内部的函数
 	//post
 	
 private:
@@ -41,6 +41,6 @@ private:
 	
 	vector <Plane> Taking;  //当前可起飞飞机队列 
 	vector <Plane> Landing; //当前可降落飞机队列	
-    void Order(); //order可以认为是机场内部的函数
+
 };
 

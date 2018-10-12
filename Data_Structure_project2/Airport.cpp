@@ -38,23 +38,23 @@ bool Airport::setSize_queue_takeoff(int size)
 	return true;
 }
 
-bool Airport::message(bool flag, int num, int fuel = 10000000, int v = 0)//the simple condition
+bool Airport::message(bool flag, int num, int fuel, int v)//the simple condition
 {
 	Plane P(flag, num, fuel, v);
 	if (flag == true)
 	{
-		if (queue_takeoff.size() < size_queue_takeoff){
-		queue_takeoff.push(P);
-		return true;
-	    }
+		if (queue_takeoff.size() < size_queue_takeoff) {
+			queue_takeoff.push(P);
+			return true;
+		}
 		else return false;
 	}
 	else {
-		if (queue_land.size() < size_queue_land){
-		queue_land.push(P); 
-		return true;
-	    }
-	    else return false;
+		if (queue_land.size() < size_queue_land) {
+			queue_land.push(P);
+			return true;
+		}
+		else return false;
 	}
 }
 
@@ -62,20 +62,23 @@ bool Airport::message(bool flag, int num, int fuel = 10000000, int v = 0)//the s
 
 void Airport::Take_Land()
 {
-	map<int, Runway>:: iterator iter;
-	iter = runway.begin();
-	while(iter != runway.end()){
-		if ((iter->second).getFlag()){
-			Plane P = queue_takeoff.top();
-			P.setrunway(iter->first); 
-    		Taking.push_back(P);	
-	    	queue_takeoff.pop();
+	for (auto iter : runway)
+	{
+		if (iter.second.getFlag() && queue_takeoff.size())
+		{
+
+			Plane p = queue_takeoff.top();
+			p.setrunway(iter.first);
+			Taking.push_back(p);
+			queue_takeoff.pop();
+
 		}
-		else {
-			Plane P = queue_land.top();
-			P.setrunway(iter->first);			
-			Landing.push_back(P);
-			queue_land.pop(); 
+		else if(queue_land.size())
+		{
+			Plane p = queue_land.top();
+			p.setrunway(iter.first);
+			Landing.push_back(p);
+			queue_land.pop();
 		}
 	}
 }
@@ -85,6 +88,7 @@ void Airport::Order()
 	while (!queue_takeoff.empty())
 	{
 		Plane temp_Plane = queue_takeoff.top();
+		temp_Plane.update();
 		temp.push_back(temp_Plane);
 		queue_takeoff.pop();
 	}
@@ -103,7 +107,7 @@ void Airport::Order()
 	}
 	for (auto item : temp)
 	{
-		if (!(item).update())
+		if (!item.update())
 		{
 			error_flag = true;
 			break;
@@ -119,11 +123,14 @@ tuple<bool, vector<Plane>, vector<Plane> > Airport::request() const
 	{
 		tuple<bool, vector<Plane>, vector<Plane> > temp(false, Taking, Landing);
 		return temp;
+
 	}
 	else
 	{
 		tuple<bool, vector<Plane>, vector<Plane> > temp(true, Taking, Landing);
+		return temp;
 	}
+
 }
 
 vector<Plane> Airport::show_takeoff()
